@@ -9,6 +9,7 @@ import VueAxios from 'vue-axios'
 import JsonViewer from 'vue-json-viewer'
 import '@coreui/coreui/dist/css/coreui.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import { CIcon } from '@coreui/icons-vue';
 
 Vue.config.productionTip = false
 
@@ -17,6 +18,7 @@ console.log('CoreuiVue:', CoreuiVue);
 Vue.use(VueAxios, axios)
 Vue.use(JsonViewer)
 Vue.use(CoreuiVue)
+Vue.use(CIcon)
 
 new Vue({
   router,

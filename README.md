@@ -42,7 +42,11 @@ The application allows users to upload an Excel file, display its content in a t
     pip install -r requirements.txt
     ```
 
-5. Run the Flask server:
+5. in config.py, edit MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB = 'kic_db'
+
+6. MySql DB dump file is added as 'kic_db.sql' 
+
+7. Run the Flask server:
     ```
     python app.py
     ```

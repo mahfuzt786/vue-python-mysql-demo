@@ -10,7 +10,7 @@
     </CContainer>
 
     <CFooter>
-      <div>© 2024 My CoreUI App</div>
+      <div>© 2024 CoreUI App</div>
     </CFooter>
   </CContainer>
 </template>
