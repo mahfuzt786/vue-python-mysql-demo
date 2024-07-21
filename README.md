@@ -1,10 +1,9 @@
 # kic-vue-python
 
 ## Introduction
-This project is a web application built with Vue.js (with Vuetify for UI components) as the front end and Python-Flask as the backend. For database I have used SQLAlchemy.
+This project is a web application built with Vue.js (with CoreUI for UI components) as the front end and Python-Flask as the backend. For database I have used MySQL.
 
 
-The application allows users to upload an Excel file, display its content in a tabular format, and perform operations such as saving the data to a database and generating PDFs.
 
 
 
@@ -42,7 +41,10 @@ The application allows users to upload an Excel file, display its content in a t
     pip install -r requirements.txt
     ```
 
-5. in config.py, edit MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB = 'kic_db'
+5. in config.py, please edit the variables
+
+MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB 
+
 
 6. MySql DB dump file is added as 'kic_db.sql' 
 
