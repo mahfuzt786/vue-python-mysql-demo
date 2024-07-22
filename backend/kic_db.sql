@@ -5585,7 +5585,7 @@ INSERT INTO `sec_acc_master` (`RECID`, `SAM_ID`, `CUSTOMER_NUMBER`, `REFERENCE_C
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
@@ -5615,6 +5615,18 @@ ALTER TABLE `security_master`
 --
 ALTER TABLE `security_transactions`
   ADD PRIMARY KEY (`RECID`);
+
+
+ALTER TABLE security_transactions
+ADD COLUMN new_date DATE;
+
+UPDATE security_transactions
+SET new_date = STR_TO_DATE(security_transactions.TRADE_DATE, '%d-%b-%Y');
+
+ALTER TABLE security_transactions
+DROP COLUMN security_transactions.TRADE_DATE;
+
+ALTER TABLE `security_transactions` CHANGE `new_date` `TRADE_DATE` DATE NULL DEFAULT NULL;
 
 --
 -- Indexes for table `sec_acc_master`
