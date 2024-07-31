@@ -80,9 +80,9 @@ class SecurityTransaction:
             st.`PROF_LOSS_SEC_CCY` AS PROF_LOSS_SEC_CCY
         FROM 
             SECURITY_TRANSACTIONS st
-        LEFT JOIN 
+        JOIN 
             SEC_ACC_MASTER sam ON st.`SECURITY_ACCOUNT` = sam.`RECID`
-        LEFT JOIN 
+        JOIN 
             SECURITY_MASTER sm ON st.`SECURITY_NUMBER` = sm.`YSM.ID`
         WHERE 
             (%s IS NULL OR st.`TRADE_DATE` >= %s) AND
@@ -92,8 +92,7 @@ class SecurityTransaction:
             (%s IS NULL OR st.`SECURITY_CURRENCY` = %s)
         """
         # LIMIT %s OFFSET %s;
-        # """
-        
+        # """    
         
         # params = [from_date, from_date, to_date, to_date, portfolio_number, portfolio_number, share_symbol, share_symbol, security_currency, security_currency, per_page, offset]
         params = [from_date, from_date, to_date, to_date, portfolio_number, portfolio_number, share_symbol, share_symbol, security_currency, security_currency]
@@ -105,9 +104,9 @@ class SecurityTransaction:
         count_query = """
         SELECT COUNT(*) 
         FROM SECURITY_TRANSACTIONS st
-        LEFT JOIN 
+        JOIN 
             SEC_ACC_MASTER sam ON st.`SECURITY_ACCOUNT` = sam.`RECID`
-        LEFT JOIN 
+        JOIN 
             SECURITY_MASTER sm ON st.`SECURITY_NUMBER` = sm.`YSM.ID`
         WHERE 
             (%s IS NULL OR st.`TRADE_DATE` >= %s) AND
