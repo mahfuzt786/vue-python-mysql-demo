@@ -7,8 +7,8 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import JsonViewer from 'vue-json-viewer'
-import '@coreui/coreui/dist/css/coreui.min.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
+import '@coreui/coreui/dist/css/coreui.min.css';
 import { CIcon } from '@coreui/icons-vue';
 
 Vue.config.productionTip = false

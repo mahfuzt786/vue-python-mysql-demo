@@ -5,9 +5,13 @@
       <!-- Assuming Navbar is a CoreUI component -->
     </CHeader>
 
-    <CContainer>
-      <router-view></router-view>
-    </CContainer>
+    <CWrapper>
+      <CRow>
+        <CCol xs="12" md="12">
+            <router-view></router-view>
+      </CCol>
+    </CRow>
+    </CWrapper>
 
     <CFooter>
       <div>© 2024 CoreUI App</div>

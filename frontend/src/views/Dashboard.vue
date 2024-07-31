@@ -1,6 +1,7 @@
 <template>
-  <div class="d-flex justify-content-center align-items-center vh-100">
-
+  <!-- <div class="justify-content-center align-items-center vh-100"> -->
+    <div class="justify-content-center align-items-center">
+    <CCard style="margin-top: 100px;">
     <CCardBody>
       <div class="datatable-container">
         <CForm style="margin-bottom: 15px;">
@@ -9,6 +10,8 @@
                 <CInput
                   type="date"
                   id="fromDate"
+                  placeholder="dd-mm-yyyy" value=""
+                  min="1997-01-01" max="2030-12-31"
                   v-model="fromDate"
                   label="From Date"
                 />
@@ -17,6 +20,8 @@
                 <CInput
                   type="date"
                   id="toDate"
+                  placeholder="dd-mm-yyyy" value=""
+                  min="1997-01-01" max="2030-12-31"
                   v-model="toDate"
                   label="To Date"
                 />
@@ -70,17 +75,27 @@
           </CRow>
         </CForm>
         
-        <h5> TOTAL RECORDS : {{ totalRecords }} </h5>
+        <CInput
+          v-model="filterValue"
+          placeholder="Filter by name"
+          class="mb-3"
+        />
+        <!-- <p>Items count: {{ totalRecords }}</p> -->
         <CDataTable
+          ref="dataTable"
           :items="items"
           :fields="fields"
-          table-filter
           columnFilter
           items-per-page-select
           :items-per-page="10"
           hover
           sorter
           pagination
+          :tableFilterValue="filterValue"
+          @table-filter="onFilter"
+          striped
+          bordered
+          responsive
         >
           <template #cell(TRADE_DATE)="data">
             {{ formatDate(data.item.TRADE_DATE) }}
@@ -101,20 +116,10 @@
         </CDataTable>
       </div>
     </CCardBody>
-
-    <!-- <CModal
-      v-model="overlayModal"
-
-      style="height: 100%; width: 100%; position: absolute; background: rgba(255, 255, 255, 0.6);"
-    >
-      <CSpinner
-        color="primary"
-        style="width:4rem;height:4rem;"
-      />
-      
-    </CModal> -->
+    </CCard>
   </div>
 </template>
+
 
 <script>
 import axios from 'axios';
@@ -151,7 +156,9 @@ export default {
       portfolioNumber: null,
       shareSymbol: null,
       securityCurrency: null,
-      
+
+      filterValue: '',
+      filteredItems: [],
     };
   },
   methods: {
@@ -211,8 +218,15 @@ export default {
     formatNumber(value) {
       return value.toLocaleString();
     },
+    onFilter(value) {
+      this.filterValue = value;
+      this.filteredItems = this.$refs.dataTable.tableFiltered;
+    },
     generatePdf() {
         this.overlayModal = true;
+        
+        console.log(this.$refs.dataTable.tableFiltered.length);
+        // console.log(this.$refs.dataTable.tableFiltered);
 
         try {
           const pdf = new jsPDF('p', 'pt', 'a4');
@@ -234,6 +248,8 @@ export default {
           yOffset += 20;
           pdf.text(`SECURITY CURRENCY: ${this.securityCurrency}`, 20, yOffset);
           yOffset += 30;
+          pdf.text(`TOTAL RECORDS: ${this.$refs.dataTable.tableFiltered.length}`, 20, yOffset);
+          yOffset += 30;
 
           // Add Table to PDF
           const headers = [
@@ -241,7 +257,8 @@ export default {
             'SECURITY_NAME', 'TRANS_TYPE', 'RECID', 'NO_NOMINAL', 'PRICE',
             'NET_AMT_TRADE', 'BROKER_COMMS', 'PROF_LOSS_SEC_CCY'
           ];
-          const tableData = this.items.map(item => headers.map(header => item[header]));
+          // const tableData = this.items.map(item => headers.map(header => item[header]));
+          const tableData = this.$refs.dataTable.tableFiltered.map(item => headers.map(header => item[header]));
 
           pdf.autoTable({
             startY: yOffset,
@@ -274,7 +291,7 @@ export default {
 
 /* Set the height of the table container */
 .datatable-container {
-  height: 700px;
+  min-height: 700px;
   overflow-y: auto;
 }
 .modal-footer {
