@@ -11,7 +11,6 @@
                   type="date"
                   id="fromDate"
                   placeholder="dd-mm-yyyy" value=""
-                  min="1997-01-01" max="2030-12-31"
                   v-model="fromDate"
                   label="From Date"
                 />
@@ -21,7 +20,6 @@
                   type="date"
                   id="toDate"
                   placeholder="dd-mm-yyyy" value=""
-                  min="1997-01-01" max="2030-12-31"
                   v-model="toDate"
                   label="To Date"
                 />
@@ -164,15 +162,45 @@ export default {
   methods: {
     async fetchData() {
       this.loading = true;
+
       console.log(this.fromDate)
       console.log((this.toDate))
+      
+      // Format date as dd-mm-yyyy
+      let formattedDateFrom = null;
+      let formattedDateTo = null;
 
       if(this.fromDate == '') {
         this.fromDate = null
       }
+      if(this.fromDate !== null) {
+        const dateValueFrom = new Date(this.fromDate);
+        const dayFrom = String(dateValueFrom.getDate()).padStart(2, '0');
+        const monthFrom = String(dateValueFrom.getMonth() + 1).padStart(2, '0');
+        const yearFrom = dateValueFrom.getFullYear();
+        
+        // Format date as dd-mm-yyyy
+        // formattedDateFrom = `${dayFrom}-${monthFrom}-${yearFrom}`;
+        formattedDateFrom = `${yearFrom}-${monthFrom}-${dayFrom}`;
+        this.fromDate = formattedDateFrom
+      }
+
       if(this.toDate == '') {
         this.toDate = null
       }
+      if(this.toDate !== null) {
+        //Format To date
+        const dateValueTo = new Date(this.toDate);
+        const dayTo = String(dateValueTo.getDate()).padStart(2, '0');
+        const monthTo = String(dateValueTo.getMonth() + 1).padStart(2, '0');
+        const yearTo = dateValueTo.getFullYear();
+        
+        // Format date as dd-mm-yyyy
+        // formattedDateTo = `${dayTo}-${monthTo}-${yearTo}`;
+        formattedDateTo = `${yearTo}-${monthTo}-${dayTo}`;
+        this.toDate = formattedDateTo
+      }
+
       if(this.portfolioNumber == '') {
         this.portfolioNumber = null
       }
@@ -182,6 +210,9 @@ export default {
       if(this.securityCurrency == '') {
         this.securityCurrency = null
       }
+
+      console.log(formattedDateFrom)
+      console.log((formattedDateTo))
 
       axios.get('http://127.0.0.1:8001/api/combined-transactions', {
         params: {
